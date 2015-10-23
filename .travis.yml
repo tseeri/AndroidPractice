@@ -1,4 +1,14 @@
 language: android
+env:
+  global:
+    # Issue 69735:	Ddmlib is too agressive with timeouts in Device.java
+    # ddmlib is timing out too quickly with the default 2 minute configuration when it doesn't receive input.
+    # Considering Travis VM (and potentially the emulator) tends to run slow, we need to up this value
+    # as installing an APK can take longer than 2 minutes.  (https://code.google.com/p/android/issues/detail?id=69735)
+    #
+    # See also:
+    #   http://stackoverflow.com/questions/28949722/android-tests-fail-on-travis-with-shellcommandunresponsiveexception/28949723#28949723
+    ADB_INSTALL_TIMEOUT=8 # default is 2 (minutes)
 android:
   components:
     # Uncomment the lines below if you want to
@@ -13,7 +23,20 @@ android:
     - android-23
 
     # Additional components
+    - extra-android-support
+    - extra-android-m2repository
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
-    - sys-img-x86-android-22
+    #- sys-img-armeabi-v7a-android-19
+    #- sys-img-x86-android-17
+
+    # Emulator Management: Create, Start and Wait
+before_script:
+  # Create test using image 8 (Nexus 5).  TODO: Device details should probably be set explicitly incase default image IDs somehow change.
+  # For more device options: android list devices
+  # http://docs.travis-ci.com/user/languages/android/#How-to-Create-and-Start-an-Emulator
+  - echo no | android create avd --force -n test -t 8
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
