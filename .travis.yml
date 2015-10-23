@@ -1,4 +1,8 @@
 language: android
+env:
+  global:
+    # http://stackoverflow.com/questions/28949722/android-tests-fail-on-travis-with-shellcommandunresponsiveexception/28949723#28949723
+    ADB_INSTALL_TIMEOUT=8 # default is 2 (minutes)
 android:
   components:
     # Uncomment the lines below if you want to
@@ -22,6 +26,7 @@ android:
 
     # Emulator Management: Create, Start and Wait
 before_script:
+  # Create test using image 8 (Nexus 5).  This should probably be set explicitly incase default image IDs somehow change
   - echo no | android create avd --force -n test -t 8
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
