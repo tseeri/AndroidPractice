@@ -6,7 +6,7 @@ if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
   printf "Deploying to HockeyApp...\n"
 
   RELEASE_DATE=`date '+%Y-%m-%d %H:%M:%S'`
-  printf -v RELEASE_NOTES "Branch:$TRAVIS_BRANCH\nBuild: $TRAVIS_BUILD_NUMBER\nUploaded: $RELEASE_DATE\nCommit Range:$TRAVIS_COMMIT_RANGE"
+  printf -v RELEASE_NOTES "Branch:$TRAVIS_BRANCH\nBuild: $TRAVIS_BUILD_NUMBER\nUploaded: $RELEASE_DATE\nCommit Range: $TRAVIS_COMMIT_RANGE"
 
   # Upload to HockeyApp
   curl https://rink.hockeyapp.net/api/2/apps/$HOCKEY_APP_ID/app_versions \
