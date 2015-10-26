@@ -3,7 +3,7 @@
 printf "Uploading to HockeyApp...\n"
 
 RELEASE_DATE=`date '+%Y-%m-%d %H:%M:%S'`
-RELEASE_NOTES="Build: $TRAVIS_BUILD_NUMBER\nUploaded: $RELEASE_DATE"
+printf -v RELEASE_NOTES "Branch:$TRAVIS_BRANCH\nBuild: $TRAVIS_BUILD_NUMBER\nUploaded: $RELEASE_DATE\nCommit Range:$TRAVIS_COMMIT_RANGE\nPull Request:$TRAVIS_PULL_REQUEST"
 
 # Upload to HockeyApp
 curl https://rink.hockeyapp.net/api/2/apps/$HOCKEY_APP_ID/app_versions \
