@@ -1,0 +1,57 @@
+language: android
+# Branch whitelist - only build master and develop
+branches:
+  only:
+    - master
+    - develop
+env:
+  global:
+    # Issue 69735:	Ddmlib is too agressive with timeouts in Device.java
+    # ddmlib is timing out too quickly with the default 2 minute configuration when it doesn't receive input.
+    # Considering Travis VM (and potentially the emulator) tends to run slow, we need to up this value
+    # as installing an APK can take longer than 2 minutes.  (https://code.google.com/p/android/issues/detail?id=69735)
+    #
+    # See also:
+    #   http://stackoverflow.com/questions/28949722/android-tests-fail-on-travis-with-shellcommandunresponsiveexception/28949723#28949723
+    - ADB_INSTALL_TIMEOUT=8 # default is 2 (minutes)
+
+    # HockeyApp APP ID
+    - secure: W2O1f8+6QuS4M6rIn5c1hZBmyjlmQAk62r+PI+3P9AVxjOX37JHDfXhX6vAQbvO0z9UvNz8+WRcrSlYq/Rg/Cw8ZXBPpe1Cn8OxCghOHl4s6nB1knetArWkYX6d5JoPAfNlRk5+oDYINnzANnqfhTjd5YqZlH/klJqnNwUxT28i90PRFCE9AyK3IMkROmlLwOgxuP6j8o91F8GijIMZtdTxwwCkiUzlaNsMMRVfCxqifc9qdDXh6LA/z21WAVbc3srvWUC84d8PwDyVd2fvz4mO1MMvGBn9j3I7+WhU1HnHi6lUd7rIJbCWKjldA/HKX/2QVefitl8TTw48PattCMvhfM+04gugPr/MgmOgY6XEYDWNJ6VXZ4MVbKflsn48aEQd6pekQngy5EL0Zr+DYNVnmuxFDdHAZT4Wh+umOd06RhbZTjATLMXlnzZIP5JsKVYlkQLwpM7iNe1r5b3FhZNcgUtyD9kbCuRG5xFKd3S2q4Vv4PnLyfNaNJZcBq/SNS7n3v2YvrPNIt3LhXoRXKT/1MwomJLcJm/vGlfI6jxH7vJKKlz+F9YWQo1NmoCVpBDPBImO/CyRcE1WNidWYy8I5KU7MpmfJzyFthpet8MlRvW54Ev4M2c30BHf6vxI5NB/3c61Q/WfIy80FXeqCYU5QoGaftQqIplWJYEavmMQ=
+    # HockeyApp Api Token
+    - secure: QV7bxmxfJ2tWcxNTZ/9ojmWo+DFVjD45WWQfBqi6Xl+zCaIcMjke2zqokbmZ5pagJkbQ9RuIbY8IfZM+MaeMusTVE0/6hgMWgPFBtUSOYmssvFjapINf+OIwkHS1TaolhQ4Ut03VOY2WPbB9L/4E/0cDmyT2GBWo19qylDQl5pnFCsHhyav12g2zOYAUqNEtow0DHIilWUyNIufxRC0NzJ+QosR0mO2wwrYKypNRol34pjJy021KAVYjwCRqmKWGQARfBtxfCdACDF6+QIMecHVMwAuPCK2/ZvJDo+S9uwWkAmiyVomD7TefbE51+WjZNGt1fjSqqBLy9WZ78RHq+03CpFcIt5sKXLIJ8bTSzSwGYGt7edrcX0rULleTaPbgGIgoHgyAjHssfnqeURNHD2SmfC47gxz0am0yehjxzYygAuSH7cRppgKs9QMX/kLFAjcezRdj+ZcbaHvQpri2acCbhJe2OLiQ9BE65CZsRRR/2RfrV/he13J/XCHlGZcFoTg62CNF6T+MiFMmiJSi2RUCXcoKHnGqYeDsXM2aCHvgf9990u2HUJoFbgE32tZhz/z1JRLr9fSMQ6cIFPEi2jsYNFVIEOZt7NYkRgMeG4x5XWukMfJT3dTiWCCJi8zaIjCktryeJYKNFSjS1MiVrokkCc2Z17PDjfUpyJilW3c=
+
+android:
+  components:
+    # Uncomment the lines below if you want to
+    # use the latest revision of Android SDK Tools
+    # - platform-tools
+    # - tools
+
+    # The BuildTools version used by your project
+    - build-tools-19.1.0
+
+    # The SDK version used to compile your project
+    - android-23
+
+    # Additional components
+    - extra-android-support
+    - extra-android-m2repository
+
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests
+    #- sys-img-armeabi-v7a-android-19
+    #- sys-img-x86-android-17
+
+    # Emulator Management: Create, Start and Wait
+before_script:
+  # Create test using image 8 (Nexus 5).  TODO: Device details should probably be set explicitly incase default image IDs somehow change.
+  # For more device options: android list devices
+  # http://docs.travis-ci.com/user/languages/android/#How-to-Create-and-Start-an-Emulator
+  - echo no | android create avd --force -n test -t 8
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+after_success:
+  # Upload the generated apk to HockeyApp
+  ./scripts/upload_apk.sh
