@@ -2,6 +2,8 @@
 
 printf "Uploading to HockeyApp...\n"
 
+set -v
+
 # Upload to HockeyApp
 uploadResponse=$(curl https://rink.hockeyapp.net/api/2/apps/${HOCKEY_APP_ID}/app_versions \
   -F status="2" \
