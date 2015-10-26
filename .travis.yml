@@ -1,4 +1,9 @@
 language: android
+# Branch whitelist - only build master and develop
+branches:
+  only:
+    - master
+    - develop
 env:
   global:
     # Issue 69735:	Ddmlib is too agressive with timeouts in Device.java
