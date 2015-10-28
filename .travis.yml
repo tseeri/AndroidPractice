@@ -4,8 +4,8 @@ notifications:
     recipients:
       - etse@topps.com
       - ndo@topps.com
-    on_success: change
-    on_failure: change
+    on_success: always
+    on_failure: always
 # Branch whitelist - only build master and develop
 branches:
   only:
