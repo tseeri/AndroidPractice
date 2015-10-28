@@ -1,4 +1,11 @@
 language: android
+notifications:
+  email:
+    recipients:
+      - etse@topps.com
+      - ndo@topps.com
+    on_success: change
+    on_failure: change
 # Branch whitelist - only build master and develop
 branches:
   only:

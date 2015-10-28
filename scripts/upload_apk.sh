@@ -14,7 +14,7 @@ if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
     -F notify="1" \
     -F notes="$RELEASE_NOTES" \
     -F notes_type="0" \
-    -F ipa="@app/build/outputs/apk/app-release-unsigned.apk" \
+    -F ipa="@app/build/outputs/apk/app-debug.apk" \
     -H "X-HockeyAppToken: $HOCKEY_APP_TOKEN"
 else
   printf "Pull request, not deploying...\n"
