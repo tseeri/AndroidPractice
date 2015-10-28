@@ -20,7 +20,7 @@ env:
     #
     # See also:
     #   http://stackoverflow.com/questions/28949722/android-tests-fail-on-travis-with-shellcommandunresponsiveexception/28949723#28949723
-    - ADB_INSTALL_TIMEOUT=8 # default is 2 (minutes)
+    - ADB_INSTALL_TIMEOUT=9 # default is 2 (minutes)
 
     # HockeyApp APP ID
     - secure: W2O1f8+6QuS4M6rIn5c1hZBmyjlmQAk62r+PI+3P9AVxjOX37JHDfXhX6vAQbvO0z9UvNz8+WRcrSlYq/Rg/Cw8ZXBPpe1Cn8OxCghOHl4s6nB1knetArWkYX6d5JoPAfNlRk5+oDYINnzANnqfhTjd5YqZlH/klJqnNwUxT28i90PRFCE9AyK3IMkROmlLwOgxuP6j8o91F8GijIMZtdTxwwCkiUzlaNsMMRVfCxqifc9qdDXh6LA/z21WAVbc3srvWUC84d8PwDyVd2fvz4mO1MMvGBn9j3I7+WhU1HnHi6lUd7rIJbCWKjldA/HKX/2QVefitl8TTw48PattCMvhfM+04gugPr/MgmOgY6XEYDWNJ6VXZ4MVbKflsn48aEQd6pekQngy5EL0Zr+DYNVnmuxFDdHAZT4Wh+umOd06RhbZTjATLMXlnzZIP5JsKVYlkQLwpM7iNe1r5b3FhZNcgUtyD9kbCuRG5xFKd3S2q4Vv4PnLyfNaNJZcBq/SNS7n3v2YvrPNIt3LhXoRXKT/1MwomJLcJm/vGlfI6jxH7vJKKlz+F9YWQo1NmoCVpBDPBImO/CyRcE1WNidWYy8I5KU7MpmfJzyFthpet8MlRvW54Ev4M2c30BHf6vxI5NB/3c61Q/WfIy80FXeqCYU5QoGaftQqIplWJYEavmMQ=
